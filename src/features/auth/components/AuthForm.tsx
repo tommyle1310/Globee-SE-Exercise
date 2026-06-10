@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PasswordInput } from "@/components/ui/password-input";
-import { login } from "../services/auth.service";
+import { login, getMe } from "../services/auth.service";
 import { useNavigate } from "react-router";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { AlertCircle } from "lucide-react";
@@ -37,18 +37,15 @@ export default function AuthForm() {
     });
 
     try {
-      const response = await login({
+      await login({
         email,
         password,
       });
 
-      loginStore(response);
+      const user = await getMe();
+      loginStore(user);
 
       navigate("/");
-
-      setErrorMessage("");
-
-      console.log(response);
 
     } catch (error) {
       console.error("Login failed:", error);

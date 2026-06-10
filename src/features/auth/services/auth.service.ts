@@ -12,17 +12,10 @@ export interface User {
   status: string;
 }
 
-export type LoginResponse = User;
-
 export const login = async (
   data: LoginRequest
-): Promise<LoginResponse> => {
-  const response = await api.post(
-    "/auth/login",
-    data
-  );
-
-  return response.data;
+): Promise<void> => {
+  await api.post("/auth/login", data);
 };
 
 export const getMe = async (): Promise<User> => {
@@ -32,4 +25,8 @@ export const getMe = async (): Promise<User> => {
 
 export const logout = async (): Promise<void> => {
   await api.post("/auth/logout");
+};
+
+export const refreshToken = async (): Promise<void> => {
+  await api.post("/auth/refresh");
 };
