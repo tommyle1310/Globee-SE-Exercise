@@ -31,7 +31,6 @@ const DashboardPage = () => {
 
   return (
     <div className="flex flex-col gap-6">
-      {/* User Info Card */}
       <div className="rounded-lg border bg-card p-6 shadow-sm">
         <h2 className="text-lg font-semibold mb-4">User Information</h2>
         {loading ? (
@@ -54,11 +53,10 @@ const DashboardPage = () => {
             </div>
             <div>
               <p className="text-sm text-muted-foreground">Status</p>
-              <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
-                user.status === 'ACTIVE'
+              <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${user.status === 'ACTIVE'
                   ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
                   : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-              }`}>
+                }`}>
                 {user.status}
               </span>
             </div>
@@ -66,19 +64,18 @@ const DashboardPage = () => {
         ) : null}
       </div>
 
-      {/* Placeholder cards */}
       <div className="p-4 grid grid-cols-4 gap-4">
-        {[1,2,3,4].map((item) => (
+        {[1, 2, 3, 4].map((item) => (
           <div key={item} className='w-full h-20 border-b bg-gray-200 rounded-md shadow-md'></div>
         ))}
       </div>
       <div className="p-4 grid grid-cols-3 gap-4">
-        {[1,2,3,4,5,6].map((item) => (
+        {[1, 2, 3, 4, 5, 6].map((item) => (
           <div key={item} className='w-full h-30 border-b bg-gray-200 rounded-md shadow-md'></div>
         ))}
       </div>
       <div className="p-4 grid grid-cols-2 gap-4">
-        {[1,2].map((item) => (
+        {[1, 2].map((item) => (
           <div key={item} className='w-full h-40 border-b bg-gray-200 rounded-md shadow-md'></div>
         ))}
       </div>
