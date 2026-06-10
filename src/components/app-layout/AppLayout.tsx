@@ -1,6 +1,5 @@
 import React from 'react';
 import { useAuthStore } from '@/stores/useAuthStore'; 
-import { Button } from '@/components/ui/button'; 
 import Header from '../Header';
 
 interface AppLayoutProps {
