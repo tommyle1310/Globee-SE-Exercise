@@ -11,6 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PasswordInput } from "@/components/ui/password-input";
+import { login } from "../services/auth.service";
 
 export default function AuthForm() {
   const [email, setEmail] = useState("");
@@ -27,7 +28,17 @@ export default function AuthForm() {
     });
 
     try {
-        console.log("Login")
+        const response = await login({
+            email,
+            password,
+        });
+
+        localStorage.setItem(
+        "accessToken",
+        response.accessToken
+        );
+
+        console.log(response);
 
     } catch (error) {
       console.error("Login failed:", error);
