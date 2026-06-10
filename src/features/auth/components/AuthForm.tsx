@@ -14,16 +14,14 @@ import { PasswordInput } from "@/components/ui/password-input";
 import { login } from "../services/auth.service";
 import { useNavigate } from "react-router";
 import { useAuthStore } from "@/stores/useAuthStore";
+import { AlertCircle } from "lucide-react";
 
 export default function AuthForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const [isLoginLoading, setIsLoginLoading] = useState(false); 
-
-  const navigate = useNavigate();
-  const loginStore = useAuthStore((state) => state.login);
+  const [isLoginLoading, setIsLoginLoading] = useState(false);
 
   const navigate = useNavigate();
   const loginStore = useAuthStore((state) => state.login);
@@ -39,26 +37,18 @@ export default function AuthForm() {
     });
 
     try {
-        const response = await login({
-            email,
-            password,
-        });
-        // if (response.accessToken) {
-        // console.log("Login successful!");
-        // // Bạn có thể thực hiện các hành động sau khi đăng nhập thành công, ví dụ: chuyển hướng trang, cập nhật trạng thái người dùng, v.v.
-        // }
+      const response = await login({
+        email,
+        password,
+      });
 
-        loginStore(
-          email,
-          response.accessToken,
-          response.refreshToken
-        );
+      loginStore(response);
 
-        navigate("/");
+      navigate("/");
 
-        setErrorMessage("");
+      setErrorMessage("");
 
-        console.log(response);
+      console.log(response);
 
     } catch (error) {
       console.error("Login failed:", error);
@@ -109,21 +99,18 @@ export default function AuthForm() {
               placeholder="••••••••"
               value={password}
               required
-              minLength={6}
+              minLength={4}
               onChange={(e) =>
                 setPassword(e.target.value)
               }
             />
           </div>
-          <Card className="border-red-500 border bg-red-200 p-2 flex flex-col gap-2 items-center rounded-lg">
-            <CardContent className="p-0">
-              {errorMessage && (
-                <p className="text-red-600 text-sm">
-                  {errorMessage}
-                </p>
-              )}
-            </CardContent>
-          </Card>
+          {errorMessage && (
+            <div className="flex items-center gap-2 rounded-lg border border-destructive/20 bg-destructive/10 p-3 text-destructive">
+              <AlertCircle className="h-4 w-4 shrink-0" />
+              <p className="text-sm font-medium">{errorMessage}</p>
+            </div>
+          )}
 
           <Button
             type="submit"
