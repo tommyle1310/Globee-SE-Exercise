@@ -104,6 +104,8 @@ export default function AuthForm() {
               id="password"
               placeholder="••••••••"
               value={password}
+              required
+              minLength={6}
               onChange={(e) =>
                 setPassword(e.target.value)
               }
