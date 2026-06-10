@@ -1,31 +1,38 @@
 import React from 'react';
-import { Button } from '../ui/button';
+import { useAuthStore } from '@/stores/useAuthStore'; 
+import { Button } from '@/components/ui/button'; 
 
-// Định nghĩa kiểu dữ liệu (interface) cho Props của Component
 interface AppLayoutProps {
   children: React.ReactNode;
-  isLoggedIn: boolean;
 }
 
-const AppLayout: React.FC<AppLayoutProps> = ({ children, isLoggedIn }) => {
-  return (
-    <div className="min-h-screen w-full flex flex-col bg-background text-foreground">
-      {/* Nếu đã login thì render Header (thay giao diện Header của team bạn vào đây) */}
-      {isLoggedIn && (
-        <header className="border-b bg-card px-6 py-4">
-          <div className="flex items-center justify-between">
-            <h1 className="text-xl font-bold">My Application</h1>
-            <Button variant="destructive" className='cursor-pointer'>Logout</Button>
-          </div>
-        </header>
-      )}
+const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
+  const isLoggedIn = useAuthStore((state) => state.isLoggedIn);
+  const logout = useAuthStore((state) => state.logout);
 
-      {/* Phần nội dung chính của từng trang (Dashboard, Profile, v.v.) */}
+  const handleLoginRedirect = () => {
+    console.log('Redirect to login page');
+  };
+
+  return (
+    <div className="min-h-screen flex flex-col bg-background text-foreground">
+      <header className="border-b bg-card px-6 py-4 flex items-center justify-between">
+        <h1 className="text-xl font-bold tracking-tight">My Application</h1>
+        
+        {isLoggedIn ? (
+          <Button variant="destructive" onClick={logout} size="sm">
+            Logout
+          </Button>
+        ) : (
+          <Button variant="default" onClick={handleLoginRedirect} size="sm">
+            Login
+          </Button>
+        )}
+      </header>
+
       <main className="flex-1 p-6">
         {children}
       </main>
-
-      {/* Thêm Footer chung nếu team bạn cần */}
     </div>
   );
 };
