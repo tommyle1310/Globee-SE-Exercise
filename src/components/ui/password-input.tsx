@@ -18,7 +18,7 @@ export function PasswordInput(
       <button
         type="button"
         onClick={() => setShow(!show)}
-        className="absolute right-3 top-1/2 -translate-y-1/2"
+        className="absolute right-3 top-1/2 cursor-pointer -translate-y-1/2"
       >
         {show ? <EyeOff size={18} /> : <Eye size={18} />}
       </button>
