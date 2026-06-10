@@ -1,35 +1,36 @@
 import { create } from 'zustand';
-import type { User } from '@/features/auth/services/auth.service';
 
+// Định nghĩa State và Actions của Store khớp với LoginResponse
 interface AuthState {
   isLoggedIn: boolean;
-  user: User | null;
-  login: (user: User) => void;
+  email: string | null;
+  login: (email: string, accessToken: string, refreshToken: string) => void;
   logout: () => void;
-  setUser: (user: User) => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
-  isLoggedIn: !!localStorage.getItem('isLoggedIn'),
-  user: null,
-
-  login: (user) => {
-    localStorage.setItem('isLoggedIn', 'true');
-    set({
-      isLoggedIn: true,
-      user,
+  isLoggedIn: !!localStorage.getItem('accessToken'), 
+  email: localStorage.getItem('userEmail'),
+  
+  login: (email, accessToken, refreshToken) => {
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+    localStorage.setItem('userEmail', email);
+    
+    set({ 
+      isLoggedIn: true, 
+      email: email 
     });
   },
 
   logout: () => {
-    localStorage.removeItem('isLoggedIn');
-    set({
-      isLoggedIn: false,
-      user: null,
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('userEmail');
+    
+    set({ 
+      isLoggedIn: false, 
+      email: null 
     });
-  },
-
-  setUser: (user) => {
-    set({ user });
   },
 }));

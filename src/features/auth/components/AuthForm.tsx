@@ -18,6 +18,12 @@ import { useAuthStore } from "@/stores/useAuthStore";
 export default function AuthForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [isLoginLoading, setIsLoginLoading] = useState(false); 
+
+  const navigate = useNavigate();
+  const loginStore = useAuthStore((state) => state.login);
 
   const navigate = useNavigate();
   const loginStore = useAuthStore((state) => state.login);
@@ -26,7 +32,7 @@ export default function AuthForm() {
     e: React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
-
+    setIsLoginLoading(true);
     console.log({
       email,
       password,
@@ -37,23 +43,37 @@ export default function AuthForm() {
             email,
             password,
         });
+        // if (response.accessToken) {
+        // console.log("Login successful!");
+        // // Bạn có thể thực hiện các hành động sau khi đăng nhập thành công, ví dụ: chuyển hướng trang, cập nhật trạng thái người dùng, v.v.
+        // }
 
-        loginStore(response);
+        loginStore(
+          email,
+          response.accessToken,
+          response.refreshToken
+        );
 
         navigate("/");
+
+        setErrorMessage("");
 
         console.log(response);
 
     } catch (error) {
       console.error("Login failed:", error);
+      setErrorMessage("Invalid email or password");
+    }
+    finally {
+      setIsLoginLoading(false);
     }
   };
 
   return (
-    <Card className="w-full max-w-md">
+    <Card className="w-full max-w-md shadow-lg">
       <CardHeader>
-        <CardTitle>Login</CardTitle>
-        <CardDescription>
+        <CardTitle className="text-center text-2xl font-bold mt-4 mb-2">Login</CardTitle>
+        <CardDescription className="text-center text-sm text-muted-foreground mb-4">
           Enter your email and password to continue
         </CardDescription>
       </CardHeader>
@@ -95,12 +115,25 @@ export default function AuthForm() {
               }
             />
           </div>
+          <Card className="border-red-500 border bg-red-200 p-2 flex flex-col gap-2 items-center rounded-lg">
+            <CardContent className="p-0">
+              {errorMessage && (
+                <p className="text-red-600 text-sm">
+                  {errorMessage}
+                </p>
+              )}
+            </CardContent>
+          </Card>
 
           <Button
             type="submit"
-            className="w-full"
+            className="w-full cursor-pointer"
           >
-            Sign In
+            {isLoginLoading ? (
+              <span>Signing in...</span>
+            ) : (
+              <span>Sign In</span>
+            )}
           </Button>
         </form>
       </CardContent>
