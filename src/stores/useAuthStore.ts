@@ -1,35 +1,36 @@
 import { create } from 'zustand';
 
-// 1. Định nghĩa kiểu dữ liệu cho User (có thể clear hơn tùy backend của bạn)
-interface User {
-  id: string;
-  email: string;
-  name?: string;
-}
-
-// 2. Định nghĩa State và Actions của Store
+// Định nghĩa State và Actions của Store khớp với LoginResponse
 interface AuthState {
   isLoggedIn: boolean;
-  user: User | null;
-  login: (userData: User, token: string) => void;
+  email: string | null;
+  login: (email: string, accessToken: string, refreshToken: string) => void;
   logout: () => void;
 }
 
-// 3. Khởi tạo Store
 export const useAuthStore = create<AuthState>((set) => ({
-  // Trạng thái ban đầu
-  isLoggedIn: !!localStorage.getItem('access_token'), // Tự động check nếu đã có token từ trước
-  user: null,
-
-  // Hành động khi login thành công
-  login: (userData, token) => {
-    localStorage.setItem('access_token', token);
-    set({ isLoggedIn: true, user: userData });
+  isLoggedIn: !!localStorage.getItem('accessToken'), 
+  email: localStorage.getItem('userEmail'),
+  
+  login: (email, accessToken, refreshToken) => {
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+    localStorage.setItem('userEmail', email);
+    
+    set({ 
+      isLoggedIn: true, 
+      email: email 
+    });
   },
 
-  // Hành động khi logout
   logout: () => {
-    localStorage.removeItem('access_token');
-    set({ isLoggedIn: false, user: null });
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('userEmail');
+    
+    set({ 
+      isLoggedIn: false, 
+      email: null 
+    });
   },
 }));

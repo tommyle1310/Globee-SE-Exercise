@@ -12,10 +12,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { PasswordInput } from "@/components/ui/password-input";
 import { login } from "../services/auth.service";
+import { useNavigate } from "react-router";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 export default function AuthForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate();
+  const loginStore = useAuthStore((state) => state.login);
 
   const handleLogin = async (
     e: React.FormEvent<HTMLFormElement>
@@ -37,6 +42,21 @@ export default function AuthForm() {
         "accessToken",
         response.accessToken
         );
+
+        // if (response.accessToken) {
+        // console.log("Login successful!");
+        // // Bạn có thể thực hiện các hành động sau khi đăng nhập thành công, ví dụ: chuyển hướng trang, cập nhật trạng thái người dùng, v.v.
+        // }
+
+        loginStore(
+          email,
+          response.accessToken,
+          response.refreshToken
+        );
+
+        navigate("/");
+
+        
 
         console.log(response);
 
