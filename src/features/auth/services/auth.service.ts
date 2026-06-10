@@ -5,11 +5,14 @@ export interface LoginRequest {
   password: string;
 }
 
-export interface LoginResponse {
+export interface User {
+  id: string;
   email: string;
-  accessToken: string;
-  refreshToken: string;
+  name: string;
+  status: string;
 }
+
+export type LoginResponse = User;
 
 export const login = async (
   data: LoginRequest
@@ -20,4 +23,13 @@ export const login = async (
   );
 
   return response.data;
+};
+
+export const getMe = async (): Promise<User> => {
+  const response = await api.get("/auth/me");
+  return response.data;
+};
+
+export const logout = async (): Promise<void> => {
+  await api.post("/auth/logout");
 };

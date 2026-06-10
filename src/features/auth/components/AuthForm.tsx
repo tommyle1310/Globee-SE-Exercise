@@ -25,6 +25,9 @@ export default function AuthForm() {
   const navigate = useNavigate();
   const loginStore = useAuthStore((state) => state.login);
 
+  const navigate = useNavigate();
+  const loginStore = useAuthStore((state) => state.login);
+
   const handleLogin = async (
     e: React.FormEvent<HTMLFormElement>
   ) => {
@@ -105,7 +108,8 @@ export default function AuthForm() {
               id="password"
               placeholder="••••••••"
               value={password}
-              className="w-full cursor-pointer"
+              required
+              minLength={6}
               onChange={(e) =>
                 setPassword(e.target.value)
               }
