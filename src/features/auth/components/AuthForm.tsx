@@ -38,25 +38,9 @@ export default function AuthForm() {
             password,
         });
 
-        localStorage.setItem(
-        "accessToken",
-        response.accessToken
-        );
-
-        // if (response.accessToken) {
-        // console.log("Login successful!");
-        // // Bạn có thể thực hiện các hành động sau khi đăng nhập thành công, ví dụ: chuyển hướng trang, cập nhật trạng thái người dùng, v.v.
-        // }
-
-        loginStore(
-          email,
-          response.accessToken,
-          response.refreshToken
-        );
+        loginStore(response);
 
         navigate("/");
-
-        
 
         console.log(response);
 
