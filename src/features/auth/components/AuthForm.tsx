@@ -32,12 +32,6 @@ export default function AuthForm() {
             email,
             password,
         });
-
-        localStorage.setItem(
-        "accessToken",
-        response.accessToken
-        );
-
         console.log(response);
 
     } catch (error) {
