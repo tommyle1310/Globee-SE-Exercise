@@ -80,6 +80,7 @@ export default function AuthForm() {
               type="email"
               placeholder="Email"
               value={email}
+              required
               onChange={(e) =>
                 setEmail(e.target.value)
               }
