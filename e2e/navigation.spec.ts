@@ -26,13 +26,21 @@ test.describe('Route Protection - Unauthenticated', () => {
     await expect(page).toHaveURL(/\/login/, { timeout: 10_000 });
   });
 
-  test('should redirect unknown routes to /login when not authenticated', async ({
+  test('should show 404 page for unknown routes when not authenticated, and go to login on click', async ({
     page,
   }) => {
     await page.context().clearCookies();
 
     await page.goto('/some-nonexistent-route');
 
+    // Verify 404 text is visible
+    await expect(page.getByRole('heading', { name: '404', level: 1 })).toBeVisible();
+    await expect(page.getByText('Page Not Found')).toBeVisible();
+
+    // Click Go Back Home
+    await page.getByRole('button', { name: 'Go Back Home' }).click();
+
+    // Verify redirect to login page
     await expect(page).toHaveURL(/\/login/, { timeout: 10_000 });
   });
 });
@@ -58,11 +66,19 @@ test.describe('Route Protection - Authenticated', () => {
     await expect(page).toHaveURL(/\/dashboard/, { timeout: 10_000 });
   });
 
-  test('should redirect unknown routes to /dashboard when authenticated', async ({
+  test('should show 404 page for unknown routes when authenticated, and go to dashboard on click', async ({
     page,
   }) => {
     await page.goto('/nonexistent-page');
 
+    // Verify 404 text is visible
+    await expect(page.getByRole('heading', { name: '404', level: 1 })).toBeVisible();
+    await expect(page.getByText('Page Not Found')).toBeVisible();
+
+    // Click Go Back Home
+    await page.getByRole('button', { name: 'Go Back Home' }).click();
+
+    // Verify redirect to dashboard page
     await expect(page).toHaveURL(/\/dashboard/, { timeout: 10_000 });
   });
 });

@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AppLayout from "@/components/app-layout/AppLayout"; 
 import LoginPage from "@/features/auth/pages/LoginPage";
 import DashBoardPage from "@/features/dashboard/pages/DashboardPage";
+import NotFoundPage from "@/features/error/pages/NotFoundPage";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { getMe } from "@/features/auth/services/auth.service";
 
@@ -61,7 +62,7 @@ export default function AppRouter() {
 
           <Route 
             path="*" 
-            element={<Navigate to={isLoggedIn ? "/dashboard" : "/login"} replace />} 
+            element={<NotFoundPage />} 
           />
         </Routes>
       </AppLayout>
