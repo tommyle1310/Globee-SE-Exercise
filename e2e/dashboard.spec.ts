@@ -58,5 +58,11 @@ test.describe('Dashboard Page', () => {
     await expect(
       page.getByRole('button', { name: 'Logout' })
     ).not.toBeVisible();
+
+    const cookies = await page.context().cookies();
+    const hasAccessToken = cookies.some(c => c.name === 'accessToken');
+    const hasRefreshToken = cookies.some(c => c.name === 'refreshToken');
+    expect(hasAccessToken).toBe(false);
+    expect(hasRefreshToken).toBe(false);
   });
 });

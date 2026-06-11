@@ -18,6 +18,7 @@ export function PasswordInput(
       <button
         type="button"
         onClick={() => setShow(!show)}
+        aria-label="Toggle visibility"
         className="absolute right-3 top-1/2 cursor-pointer -translate-y-1/2"
       >
         {show ? <EyeOff size={18} /> : <Eye size={18} />}
