@@ -47,9 +47,13 @@ export default function AuthForm() {
 
       navigate("/");
 
-    } catch (error) {
+      setErrorMessage("");
+
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       console.error("Login failed:", error);
-      setErrorMessage("Invalid email or password");
+      setErrorMessage(error.response?.data?.message ?? 'Login failed');
     }
     finally {
       setIsLoginLoading(false);

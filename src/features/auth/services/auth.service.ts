@@ -12,6 +12,11 @@ export interface User {
   status: string;
 }
 
+
+export type LoginResponse = {
+  message: string
+} & User;
+
 export const login = async (
   data: LoginRequest
 ): Promise<void> => {
