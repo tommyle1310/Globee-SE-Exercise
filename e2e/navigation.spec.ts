@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { AUTH_STATE_PATH } from './constants';
 
 test.describe('Route Protection - Unauthenticated', () => {
-  test('should redirect /dashboard to /login when not authenticated', async ({
+  test('System block when unauthorized user trying to access dashboard page via url', async ({
     page,
   }) => {
     await page.context().clearCookies();
@@ -26,7 +26,7 @@ test.describe('Route Protection - Unauthenticated', () => {
     await expect(page).toHaveURL(/\/login/, { timeout: 10_000 });
   });
 
-  test('should show 404 page for unknown routes when not authenticated, and go to login on click', async ({
+  test('The system redirects the user to the Not Found page when the user attempts to access a non-existent route.', async ({
     page,
   }) => {
     await page.context().clearCookies();
@@ -58,7 +58,7 @@ test.describe('Route Protection - Authenticated', () => {
     await expect(page.getByText('User Information')).toBeVisible();
   });
 
-  test('should redirect / to /dashboard when authenticated', async ({
+  test('Redirect user to dashboard when authenticated', async ({
     page,
   }) => {
     await page.goto('/');

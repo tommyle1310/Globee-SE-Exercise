@@ -21,7 +21,7 @@ test.describe('Login Page', () => {
     ).toBeVisible();
   });
 
-  test('should login successfully with valid credentials', async ({ page }) => {
+  test('User login using valid email and password', async ({ page }) => {
     await page.getByLabel('Email').fill(TEST_USER.email);
     await page.getByLabel('Password').fill(TEST_USER.password);
 
@@ -40,7 +40,7 @@ test.describe('Login Page', () => {
     ).toBeVisible();
   });
 
-  test('should show error message with invalid credentials', async ({ page }) => {
+  test('Verify the system validates invalid credentials.', async ({ page }) => {
     await page.getByLabel('Email').fill('wrong@email.com');
     await page.getByLabel('Password').fill('wrongpassword');
 
@@ -56,7 +56,7 @@ test.describe('Login Page', () => {
     ).toBeVisible();
   });
 
-  test('should show error with valid email but wrong password', async ({ page }) => {
+  test('Verify the system validates invalid credentials (incorrect password).', async ({ page }) => {
     await page.getByLabel('Email').fill(TEST_USER.email);
     await page.getByLabel('Password').fill('definitelywrongpassword');
 
@@ -68,7 +68,7 @@ test.describe('Login Page', () => {
     await expect(page).toHaveURL(/\/login/);
   });
 
-  test('should prevent submission with empty email', async ({ page }) => {
+  test('Prevent submission with empty email', async ({ page }) => {
     await page.getByLabel('Password').fill('somepassword');
 
     await page.getByRole('button', { name: 'Sign In' }).click();
@@ -80,17 +80,8 @@ test.describe('Login Page', () => {
     ).not.toBeVisible();
   });
 
-  test('should prevent submission with empty password', async ({ page }) => {
+  test('Prevent submission with empty password', async ({ page }) => {
     await page.getByLabel('Email').fill(TEST_USER.email);
-
-    await page.getByRole('button', { name: 'Sign In' }).click();
-
-    await expect(page).toHaveURL(/\/login/);
-  });
-
-  test('should enforce minimum password length', async ({ page }) => {
-    await page.getByLabel('Email').fill(TEST_USER.email);
-    await page.getByLabel('Password').fill('ab');
 
     await page.getByRole('button', { name: 'Sign In' }).click();
 

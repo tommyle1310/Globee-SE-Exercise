@@ -48,7 +48,7 @@ test.describe('Dashboard Page', () => {
     ).toBeVisible();
   });
 
-  test('should logout and redirect to login page', async ({ page }) => {
+  test('User logout and redirect to login page', async ({ page }) => {
     await page.getByRole('button', { name: 'Logout' }).click();
     await page.waitForURL('**/login', { timeout: 10_000 });
 
