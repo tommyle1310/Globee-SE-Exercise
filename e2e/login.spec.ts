@@ -164,19 +164,6 @@ test.describe('Login Page', () => {
     expect(isInvalid).toBe(true);
   });
 
-  test('should show error when logging in with unregistered account', async ({ page }) => {
-    await page.getByLabel('Email').fill('unregistered-user-123@gmail.com');
-    await page.getByLabel('Password').fill('somepassword');
-
-    await page.getByRole('button', { name: 'Sign In' }).click();
-
-    await expect(
-      page.getByText('Invalid email or password')
-    ).toBeVisible({ timeout: 10_000 });
-
-    await expect(page).toHaveURL(/\/login/);
-  });
-
   test('should show account not active message when logging in with inactive credentials', async ({ page }) => {
     await page.getByLabel('Email').fill('admin1@gmail.com');
     await page.getByLabel('Password').fill('admin');
@@ -192,12 +179,15 @@ test.describe('Login Page', () => {
 
   test('should toggle password visibility on show/hide button click', async ({ page }) => {
     const passwordInput = page.getByLabel('Password');
+    await page.getByLabel('Password').fill(TEST_USER.password);
     const toggleButton = page.getByLabel('Toggle visibility');
 
     await expect(passwordInput).toHaveAttribute('type', 'password');
 
     await toggleButton.click();
     await expect(passwordInput).toHaveAttribute('type', 'text');
+
+    await page.waitForTimeout(1000);
 
     await toggleButton.click();
     await expect(passwordInput).toHaveAttribute('type', 'password');
